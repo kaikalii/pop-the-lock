@@ -10,12 +10,12 @@ reticle_radius = 0.1
 start_color = (0, 128, 0)
 end_color = (64, 128, 255)
 max_hit_count = 50
-min_speed = 1.8
+min_speed = 2
 max_speed = 3.2
-min_min_offset = tau / 8
-max_min_offset = tau / 4
-min_max_offset = tau / 3
-max_max_offset = tau / 2
+min_min_offset = tau * 0.14
+max_min_offset = tau * 0.3
+min_max_offset = tau * 0.33
+max_max_offset = tau * 0.45
 hit_threshold = atan(target_radius * 1.2)
 
 
