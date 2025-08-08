@@ -16,7 +16,7 @@ min_min_offset = tau / 8
 max_min_offset = tau / 4
 min_max_offset = tau / 3
 max_max_offset = tau / 2
-hit_threshold = atan(target_radius * 1.1)
+hit_threshold = atan(target_radius * 1.2)
 
 
 def unit_vect(angle):
@@ -148,7 +148,7 @@ text_dict = {}
 pygame.init()
 pygame.font.init()
 pygame.display.set_caption("Pop the Lock")
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 game = Game()
 
@@ -169,7 +169,7 @@ while running:
                         game.space()
 
     # Update
-    game.update(clock.tick(60) / 1000)
+    game.update(clock.tick(120) / 1000)
 
     # Render
     game.render(screen)
