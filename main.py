@@ -1,7 +1,7 @@
 import pygame
 from pygame import Vector2
 import random
-from math import pi, tau, sin, cos
+from math import pi, tau, sin, cos, atan
 from enum import Enum
 
 # Game constants
@@ -16,7 +16,7 @@ min_min_offset = tau / 8
 max_min_offset = tau / 4
 min_max_offset = tau / 3
 max_max_offset = tau / 2
-hit_threshold = 0.2
+hit_threshold = atan(target_radius * 1.1)
 
 
 def unit_vect(angle):
@@ -81,7 +81,7 @@ class Game:
                 else:
                     self.state = State.Lose
 
-    def render(self):
+    def render(self, screen):
         """Render the game"""
         match self.state:
             case State.Start:
@@ -90,26 +90,26 @@ class Game:
                 screen.blit(text("Press SPACE to start", 48, "white"), (10, 300))
             case State.Playing:
                 screen.fill(lerp_color(start_color, end_color, self.progress()))
-                self.render_board()
-                self.render_count()
+                self.render_board(screen)
+                self.render_count(screen)
             case State.Win:
                 screen.fill(end_color)
                 screen.blit(text("You Win!", 64, "white"), (10, 100))
                 screen.blit(text("Press SPACE to play again", 48, "white"), (10, 300))
             case State.Lose:
                 screen.fill("#f04040")
-                self.render_board()
-                self.render_count()
+                self.render_board(screen)
+                self.render_count(screen)
                 screen.blit(text("Press SPACE to play again", 48, "white"), (10, 100))
 
-    def render_count(self):
+    def render_count(self, screen):
         screen_size = Vector2(screen.get_width(), screen.get_height())
         center = screen_size / 2
         count_text = text(str(max_hit_count - self.hits), 128, "white")
         count_size = Vector2(count_text.get_width(), count_text.get_height())
         screen.blit(count_text, center - count_size / 2)
 
-    def render_board(self):
+    def render_board(self, screen):
         screen_size = Vector2(screen.get_width(), screen.get_height())
         center = screen_size / 2
         min_radius = min(screen_size.x, screen_size.y) / 2
@@ -172,7 +172,7 @@ while running:
     game.update(clock.tick(60) / 1000)
 
     # Render
-    game.render()
+    game.render(screen)
     pygame.display.flip()
 
 pygame.quit()
