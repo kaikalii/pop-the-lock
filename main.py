@@ -5,18 +5,18 @@ from math import pi, tau, sin, cos
 from enum import Enum
 
 # Game constants
-target_radius = 0.1
-reticle_radius = 0.06667
+target_radius = 0.15
+reticle_radius = 0.1
 start_color = (0, 128, 0)
 end_color = (64, 128, 255)
 max_hit_count = 50
-min_speed = 1.5
-max_speed = 4
+min_speed = 1.8
+max_speed = 3
 min_min_offset = tau / 8
 max_min_offset = tau / 4
 min_max_offset = tau / 3
 max_max_offset = tau / 2
-hit_threshold = 0.16
+hit_threshold = 0.2
 
 
 def unit_vect(angle):
@@ -64,12 +64,6 @@ class Game:
         max_offset = lerp(max_max_offset, min_max_offset, self.progress())
         offset = random.uniform(min_offset, max_offset)
         self.target = modulus(self.angle + self.dir() * offset, tau)
-        # print()
-        # print(min_offset)
-        # print(max_offset)
-        # print(offset)
-        # print(self.angle)
-        # print(self.target)
 
     def space(self):
         """Handle space press"""
@@ -78,7 +72,6 @@ class Game:
                 self.__init__()
                 self.state = State.Playing
             case State.Playing:
-                print(angle_diff(self.angle, self.target))
                 if angle_diff(self.angle, self.target) < hit_threshold:
                     self.hits += 1
                     if self.hits == max_hit_count:
@@ -107,12 +100,12 @@ class Game:
                 screen.fill("#f04040")
                 self.render_board()
                 self.render_count()
-                screen.blit(text("Press SPACE to play again", 48, "white"), (10, 300))
+                screen.blit(text("Press SPACE to play again", 48, "white"), (10, 100))
 
     def render_count(self):
         screen_size = Vector2(screen.get_width(), screen.get_height())
         center = screen_size / 2
-        count_text = text(str(self.hits), 64, "white")
+        count_text = text(str(max_hit_count - self.hits), 128, "white")
         count_size = Vector2(count_text.get_width(), count_text.get_height())
         screen.blit(count_text, center - count_size / 2)
 
